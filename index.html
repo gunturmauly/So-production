@@ -97,7 +97,8 @@
 </head>
 <body>
     <div class="container">
-        <h2>📦 Stock Opname Calculator</h2>
+        <h2>📦 Stock Opname
+        </h2>
         <form id="stockForm">
             <div class="form-group">
                 <label for="endStock"><i class="fas fa-box"></i> End Stock</label>
@@ -106,15 +107,15 @@
             </div>
             <div class="form-group">
                 <label for="delivery"><i class="fas fa-truck"></i> Delivery</label>
-                <input type="text" id="delivery" name="delivery" placeholder="Enter Delivery Quantity" 
+                <input type="text" id="delivery" name="delivery" placeholder="Enter Delivery " 
                        required inputmode="numeric" pattern="[0-9]*">
             </div>
             <div class="form-group">
-                <label for="begStock"><i class="fas fa-warehouse"></i> Beginning Stock</label>
-                <input type="text" id="begStock" name="begStock" placeholder="Enter Beginning Stock" 
+                <label for="begStock"><i class="fas fa-warehouse"></i> Beg Stock</label>
+                <input type="text" id="begStock" name="begStock" placeholder="Enter Beg Stock" 
                        required inputmode="numeric" pattern="[0-9]*">
             </div>
-            <button type="button" onclick="calculateProduction()">Calculate Production</button>
+            <button type="button" onclick="calculateProduction()"> Production</button>
         </form>
         <div id="result" class="result" style="display: none;">
             Production: <span id="productionResult"></span>
