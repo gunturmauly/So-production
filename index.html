@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Opname Calculator</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #4e54c8, #8f94fb);
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            background: #ffffff1a;
+            backdrop-filter: blur(10px);
+            padding: 20px 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 400px;
+        }
+        .container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+        .form-group label i {
+            margin-right: 8px;
+            font-size: 18px;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background: #fff;
+            color: #333;
+        }
+        .form-group input:focus {
+            border-color: #6a67ce;
+            outline: none;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            background: #6a67ce;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        button:hover {
+            background: #4e54c8;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            background: #ffffff33;
+            color: #fff;
+            font-size: 16px;
+            text-align: center;
+            font-weight: bold;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+        }
+        .result span {
+            color: #ffd700;
+        }
+        @media (max-width: 480px) {
+            .container {
+                padding: 15px 20px;
+            }
+            button {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>📦 Stock Opname Calculator</h2>
+        <form id="stockForm">
+            <div class="form-group">
+                <label for="endStock"><i class="fas fa-box"></i> End Stock</label>
+                <input type="text" id="endStock" name="endStock" placeholder="Enter End Stock" 
+                       required inputmode="numeric" pattern="[0-9]*">
+            </div>
+            <div class="form-group">
+                <label for="delivery"><i class="fas fa-truck"></i> Delivery</label>
+                <input type="text" id="delivery" name="delivery" placeholder="Enter Delivery Quantity" 
+                       required inputmode="numeric" pattern="[0-9]*">
+            </div>
+            <div class="form-group">
+                <label for="begStock"><i class="fas fa-warehouse"></i> Beginning Stock</label>
+                <input type="text" id="begStock" name="begStock" placeholder="Enter Beginning Stock" 
+                       required inputmode="numeric" pattern="[0-9]*">
+            </div>
+            <button type="button" onclick="calculateProduction()">Calculate Production</button>
+        </form>
+        <div id="result" class="result" style="display: none;">
+            Production: <span id="productionResult"></span>
+        </div>
+    </div>
+
+    <script>
+        // Fungsi untuk memformat angka dengan titik ribuan
+        function formatNumber(input) {
+            const rawNumber = input.replace(/\D/g, ''); // Hapus semua yang bukan angka
+            return rawNumber.replace(/\B(?=(\d{3})+(?!\d))/g, '.'); // Tambahkan titik
+        }
+
+        // Fungsi untuk menghapus format angka saat membaca nilai asli
+        function unformatNumber(input) {
+            return parseInt(input.replace(/\./g, ''), 10) || 0; // Hilangkan titik, lalu ubah ke angka
+        }
+
+        // Event listener untuk memformat input
+        document.querySelectorAll('input[type="text"]').forEach(input => {
+            input.addEventListener('input', () => {
+                const cursorPosition = input.selectionStart;
+                const rawValue = input.value.replace(/\./g, ''); // Ambil angka mentah
+                const formattedValue = formatNumber(rawValue); // Format ulang
+                input.value = formattedValue;
+
+                // Sesuaikan posisi kursor
+                const diff = formattedValue.length - rawValue.length;
+                input.setSelectionRange(cursorPosition + diff, cursorPosition + diff);
+            });
+        });
+
+        function calculateProduction() {
+            const endStock = unformatNumber(document.getElementById('endStock').value);
+            const delivery = unformatNumber(document.getElementById('delivery').value);
+            const begStock = unformatNumber(document.getElementById('begStock').value);
+
+            if (isNaN(endStock) || isNaN(delivery) || isNaN(begStock)) {
+                alert('Please fill in all fields with valid numbers.');
+                return;
+            }
+
+            const production = endStock + delivery - begStock;
+
+            document.getElementById('productionResult').textContent = production.toLocaleString('id-ID');
+            document.getElementById('result').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
